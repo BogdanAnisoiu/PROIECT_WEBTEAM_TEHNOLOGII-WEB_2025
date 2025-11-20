@@ -1,3 +1,8 @@
+
+          
+                                                           CampusNotes – Specificatii si Arhitectura Aplicatie
+
+
 Aplicatia se deschide initial intr-o pagina simpla de autentificare, in care utilizatorul are de ales intre doua optiuni principale: „Login” si „Creeaza cont”. Scopul acestei pagini este sa directioneze studentul fie catre formularul de inregistrare, daca nu are cont, fie catre zona de autentificare, daca este deja utilizator al platformei.
 
 1.1 Creeare cont si generare cod pentru colaborare
