@@ -1,0 +1,199 @@
+/* Navbar.css */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 3rem;
+    width: 100%;
+
+    /* Glassmorphism */
+    background: rgba(36, 36, 36, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-sizing: border-box;
+}
+
+/* --- Brand / Logo Section --- */
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    color: #fff;
+    cursor: pointer;
+    transition: opacity 0.3s;
+}
+
+.navbar-brand:hover {
+    opacity: 0.9;
+}
+
+.logo-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #646cff;
+    /* Primary Brand Color */
+}
+
+.logo-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.brand-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.7) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+/* --- Navigation Links (Center) --- */
+.navbar-links {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 2.5rem;
+    /* More space for cleaner look */
+    align-items: center;
+
+    /* Absolute Center Trick if exact centering is needed, 
+     but justify-content: space-between works well for responsiveness usually. 
+     To ensure they are truly centered relative to screen, we can use margin auto or transforms.
+     For now, we let them sit naturally between logo and auth. */
+}
+
+.navbar-links li {
+    margin: 0;
+}
+
+.navbar-links li a {
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 500;
+    font-size: 0.95rem;
+    padding: 0.5rem 0;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.navbar-links li a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    background-color: #646cff;
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.navbar-links li a:hover {
+    color: #fff;
+}
+
+.navbar-links li a:hover::after {
+    width: 100%;
+}
+
+/* --- Auth Buttons (Right) --- */
+.navbar-auth {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.navbar-auth a {
+    text-decoration: none;
+    padding: 0.5em 1.2em;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-Autentificare {
+    color: rgba(255, 255, 255, 0.9);
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.btn-login:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-1px);
+}
+
+.btn-Inregistrare {
+    background: #646cff;
+    color: white;
+    border: 1px solid #646cff;
+    box-shadow: 0 4px 12px rgba(100, 108, 255, 0.25);
+}
+
+.btn-Inregistrare:hover {
+    background: #535bf2;
+    border-color: #535bf2;
+    transform: translateY(-2px);
+    /* Pop effect */
+    box-shadow: 0 6px 16px rgba(100, 108, 255, 0.4);
+}
+
+/* --- Mobile Responsiveness (Simple) --- */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 0.8rem 1.5rem;
+    }
+
+    .navbar-links {
+        display: none;
+        /* Hide links on small screens for now, or use hamburger */
+    }
+}
+
+/* --- Light Mode --- */
+@media (prefers-color-scheme: light) {
+    .navbar {
+        background: rgba(255, 255, 255, 0.9);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .navbar-brand {
+        color: #213547;
+    }
+
+    .brand-name {
+        background: none;
+        color: #213547;
+    }
+
+    .navbar-links li a {
+        color: #213547;
+    }
+
+    .navbar-links li a:hover {
+        color: #646cff;
+    }
+
+    .btn-Autentificare {
+        color: #213547;
+        border-color: rgba(33, 53, 71, 0.2);
+    }
+
+    .btn-Autentificare:hover {
+        background: rgba(0, 0, 0, 0.05);
+        border-color: #213547;
+    }
+}
