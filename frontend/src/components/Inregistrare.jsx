@@ -19,6 +19,11 @@ function Inregistrare() {
             specializare: e.target.elements.Specializare.value
         };
 
+        if (dateDeTrimis.password.length < 8) {
+            toast.error("Parola trebuie să aibă minim 8 caractere!");
+            return;
+        }
+
         const toastId = toast.loading('Se creează contul...');
 
         try {

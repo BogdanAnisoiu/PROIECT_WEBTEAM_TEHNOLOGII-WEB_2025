@@ -16,6 +16,10 @@ router.post('/inregistrare', async (req, res) => {
       return res.status(400).json({ message: 'Toate campurile sunt obligatorii.' });
     }
 
+    if (password.length < 8) {
+      return res.status(400).json({ message: 'Parola trebuie sa aiba minim 8 caractere.' });
+    }
+
     if (!email.endsWith('@stud.ase.ro')) {
       return res
         .status(400)
