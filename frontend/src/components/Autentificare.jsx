@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { API_URL } from '../config';
+import toast from 'react-hot-toast';
 import './Autentificare.css';
 
 function Autentificare() {
 
-    const [mesaj, setMesaj] = useState('');
     const navigate = useNavigate();
 
     const gestioneazaSubmit = async (e) => {
@@ -15,6 +15,8 @@ function Autentificare() {
             email: e.target.elements.Email.value,
             password: e.target.elements.Password.value
         };
+
+        const toastId = toast.loading('Se autentifică...');
 
         try {
             const raspuns = await fetch(`${API_URL}/autentificare/conectare`, {
@@ -26,7 +28,8 @@ function Autentificare() {
             const data = await raspuns.json();
 
             if (raspuns.ok) {
-                setMesaj('Te-ai autentificat cu succes!');
+                toast.dismiss(toastId);
+                toast.success('Te-ai autentificat cu succes!');
 
                 localStorage.setItem('token', data.token);
                 localStorage.setItem('user', JSON.stringify(data.user));
@@ -34,13 +37,16 @@ function Autentificare() {
                 localStorage.setItem('prenume', data.user.prenume);
                 localStorage.setItem('userId', data.user.id);
                 localStorage.setItem('codColaborare', data.user.codColaborare);
-                setTimeout(() => navigate('/Cursuri'), 1500);
+                setTimeout(() => navigate('/Cursuri'), 1000);
             } else {
-                setMesaj(data.message || 'Eroare la autentificare.');
+                toast.dismiss(toastId);
+                toast.error(data.message || 'Eroare la autentificare.');
             }
 
         } catch (err) {
-            setMesaj('Eroare: Nu pot contacta serverul.');
+            console.error(err);
+            toast.dismiss(toastId);
+            toast.error('Eroare: Nu pot contacta serverul.');
         }
     };
     return (
@@ -51,8 +57,6 @@ function Autentificare() {
                 </div>
                 <h2>Autentificare</h2>
                 <p className="subtitle">Platforma de notițe pentru studenții ASE</p>
-
-                {mesaj && <p className={`status-message ${mesaj.includes('succes') ? 'success' : 'error'}`}>{mesaj}</p>}
 
                 <form onSubmit={gestioneazaSubmit} className="auth-form">
                     <div className="form-group">

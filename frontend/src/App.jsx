@@ -5,11 +5,13 @@ import Autentificare from './components/Autentificare'
 import Cursuri from './components/Cursuri'
 import Notite from './components/Notite'
 import EditorNotita from './components/EditorNotita'
+import { Toaster } from 'react-hot-toast';
 
 function App() {
 
   return (
     <>
+      <Toaster position="top-center" />
 
       <Routes>
         <Route path="/Cursuri" element={<Cursuri />} />

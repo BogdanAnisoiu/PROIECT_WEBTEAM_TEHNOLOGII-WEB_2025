@@ -9,6 +9,7 @@ import './EditorNotita.css';
 import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { API_URL } from '../config';
+import toast from 'react-hot-toast';
 
 const EditorNotita = () => {
     const referintaInputFisier = useRef(null);
@@ -100,11 +101,11 @@ const EditorNotita = () => {
                 }
 
             } else {
-                alert('Eroare la încărcarea fișierului.');
+                toast.error('Eroare la încărcarea fișierului.');
             }
         } catch (err) {
             console.error(err);
-            alert('Eroare de conexiune.');
+            toast.error('Eroare de conexiune.');
         } finally {
             e.target.value = '';
         }
@@ -138,10 +139,10 @@ const EditorNotita = () => {
         });
 
         if (raspuns.ok) {
-            alert('Notita a fost salvata cu succes');
-            window.close();
+            toast.success('Notita a fost salvata cu succes');
+            setTimeout(() => window.close(), 1000);
         } else {
-            alert('Eroare la salvarea notitei');
+            toast.error('Eroare la salvarea notitei');
         }
 
     }
@@ -164,11 +165,11 @@ const EditorNotita = () => {
                         setCursId(notita.cursId);
                         setTip(notita.tip || 'curs');
                     } else {
-                        alert('Nu am putut incarca notita');
+                        toast.error('Nu am putut incarca notita');
                     }
                 } catch (err) {
                     console.log(err);
-                    alert('Nu am putut incarca notita');
+                    toast.error('Nu am putut incarca notita');
                 }
             };
             incarcaNotita();
@@ -188,14 +189,14 @@ const EditorNotita = () => {
             });
 
             if (raspuns.ok) {
-                alert('Notita a fost stearsa.');
+                toast.success('Notita a fost stearsa.');
                 navigare('/cursuri');
             } else {
-                alert('Eroare la stergere.');
+                toast.error('Eroare la stergere.');
             }
         } catch (err) {
             console.error(err);
-            alert('Eroare de conexiune.');
+            toast.error('Eroare de conexiune.');
         }
     };
 

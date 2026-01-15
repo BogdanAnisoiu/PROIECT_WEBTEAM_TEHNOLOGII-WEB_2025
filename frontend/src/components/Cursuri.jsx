@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { API_URL } from '../config';
+import toast from 'react-hot-toast';
 import './Cursuri.css';
 
 import Notita from "./Notita";
@@ -133,7 +134,7 @@ function Cursuri() {
     //trimite o cerere de prietenie
     const trimiteCerere = async () => {
         if (!codIntrodus) {
-            alert("Te rog introdu un cod!");
+            toast.error("Te rog introdu un cod!");
             return;
         }
         try {
@@ -153,17 +154,17 @@ function Cursuri() {
             const data = await response.json();
 
             if (response.ok) {
-                alert('Cerere trimisa cu succes!');
+                toast.success('Cerere trimisa cu succes!');
                 setCodIntrodus('');
                 setRequestCanEdit(false); // reset checkbox
                 //optional: inchidem modalul sau nu
             } else {
-                alert(data.message || 'Eroare la trimiterea cererii.');
+                toast.error(data.message || 'Eroare la trimiterea cererii.');
             }
         }
         catch (error) {
             console.error('Eroare:', error);
-            alert('Eroare de conexiune.');
+            toast.error('Eroare de conexiune.');
         }
     }
 
@@ -198,9 +199,9 @@ function Cursuri() {
                 if (actiune === 'accept') {
                     fetchPrieteni(); //actualizam lista de prieteni imediat
                 }
-                alert(`Cerere ${actiune === 'accept' ? 'acceptata' : 'respinsa'}!`);
+                toast.success(`Cerere ${actiune === 'accept' ? 'acceptata' : 'respinsa'}!`);
             } else {
-                alert('Eroare la procesarea cererii.');
+                toast.error('Eroare la procesarea cererii.');
             }
         } catch (err) {
             console.error(err);
@@ -292,13 +293,13 @@ function Cursuri() {
             });
 
             if (response.ok) {
-                alert('Notiță trimisă cu succes!');
+                toast.success('Notiță trimisă cu succes!');
             } else {
-                alert('Eroare la trimitere.');
+                toast.error('Eroare la trimitere.');
             }
         } catch (err) {
             console.error(err);
-            alert('Eroare de conexiune.');
+            toast.error('Eroare de conexiune.');
         }
     };
 
@@ -329,7 +330,7 @@ function Cursuri() {
     //adauga o materie noua
     const adaugaCurs = async () => {
         if (!numeCursNou) {
-            alert('Te rog introdu numele materiei.');
+            toast.error('Te rog introdu numele materiei.');
             return;
         }
         try {
@@ -348,7 +349,7 @@ function Cursuri() {
             });
 
             if (response.ok) {
-                alert('Materie adaugata cu succes!');
+                toast.success('Materie adaugata cu succes!');
                 setShowAddCourseModal(false);
                 setNumeCursNou('');
                 //daca materia adaugata corespunde cu filtrul curent, reincarcam lista
@@ -357,11 +358,11 @@ function Cursuri() {
                     preiaCursuri(anCursNou, semestruCursNou);
                 }
             } else {
-                alert('Eroare la adaugarea materiei.');
+                toast.error('Eroare la adaugarea materiei.');
             }
         } catch (err) {
             console.error(err);
-            alert('Eroare de conexiune.');
+            toast.error('Eroare de conexiune.');
         }
     };
 
@@ -389,7 +390,7 @@ function Cursuri() {
 
     //creeaza un grup nou
     const creazaGrup = async () => {
-        if (!numeGrupNou) return alert("Numele grupului este obligatoriu.");
+        if (!numeGrupNou) return toast.error("Numele grupului este obligatoriu.");
         try {
             const token = localStorage.getItem('token');
             const res = await fetch(API_URL + '/grupuri', {
@@ -402,12 +403,12 @@ function Cursuri() {
             });
 
             if (res.ok) {
-                alert("Grup creat!");
+                toast.success("Grup creat!");
                 setShowCreateGroupModal(false);
                 setNumeGrupNou('');
                 fetchGrupuri();
             } else {
-                alert("Eroare la creare grup.");
+                toast.error("Eroare la creare grup.");
             }
         } catch (err) {
             console.error(err);
@@ -452,11 +453,11 @@ function Cursuri() {
                 body: JSON.stringify({ codColaborare: code })
             });
             if (res.ok) {
-                alert("Invitație trimisă (membru adăugat)!");
+                toast.success("Invitație trimisă (membru adăugat)!");
                 gestioneazaClickGrup(grupSelectat); //refresh detalii grup
             } else {
                 const dt = await res.json();
-                alert(dt.message || "Eroare la invitare");
+                toast.error(dt.message || "Eroare la invitare");
             }
         } catch (err) {
             console.error(err);
@@ -746,8 +747,8 @@ function Cursuri() {
                                                                     },
                                                                     body: JSON.stringify({ notitaId: notita.id })
                                                                 }).then(r => {
-                                                                    if (r.ok) alert('Notita partajata in grup!');
-                                                                    else alert('Eroare partajare grup.');
+                                                                    if (r.ok) toast.success('Notita partajata in grup!');
+                                                                    else toast.error('Eroare partajare grup.');
                                                                 });
                                                             }
                                                         } else {
@@ -890,14 +891,14 @@ function Cursuri() {
                                                                 if (res.ok) {
                                                                     //update display
                                                                     setPrieteni(prieteni.filter(p => p.id !== prieten.id));
-                                                                    alert('Prieten sters.');
+                                                                    toast.success('Prieten sters.');
                                                                 } else {
                                                                     const errData = await res.json();
-                                                                    alert(`Eroare la stergerea prietenului: ${errData.message || res.statusText}`);
+                                                                    toast.error(`Eroare la stergerea prietenului: ${errData.message || res.statusText}`);
                                                                 }
                                                             } catch (err) {
                                                                 console.error(err);
-                                                                alert('Eroare de conexiune.');
+                                                                toast.error('Eroare de conexiune.');
                                                             }
                                                         }
                                                     }}

@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { API_URL } from '../config';
+import toast from 'react-hot-toast';
 import './Inregistrare.css';
 
 function Inregistrare() {
-    const [mesaj, setMesaj] = useState('');
-    const [isSuccess, setIsSuccess] = useState(false);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -20,6 +19,8 @@ function Inregistrare() {
             specializare: e.target.elements.Specializare.value
         };
 
+        const toastId = toast.loading('Se creează contul...');
+
         try {
             const raspuns = await fetch(`${API_URL}/autentificare/inregistrare`, {
                 method: 'POST',
@@ -32,16 +33,17 @@ function Inregistrare() {
             const raspunsJson = await raspuns.json();
 
             if (raspuns.ok) {
-                setIsSuccess(true);
-                setMesaj(raspunsJson.message || 'Succes!');
-                setTimeout(() => navigate('/autentificare'), 2000);
+                toast.dismiss(toastId);
+                toast.success(raspunsJson.message || 'Cont creat cu succes!');
+                setTimeout(() => navigate('/autentificare'), 1500);
             } else {
-                setIsSuccess(false);
-                setMesaj(raspunsJson.message || 'Eroare la inregistrare');
+                toast.dismiss(toastId);
+                toast.error(raspunsJson.message || 'Eroare la înregistrare');
             }
         } catch (err) {
             console.error(err);
-            setMesaj('Nu pot contacta serverul.');
+            toast.dismiss(toastId);
+            toast.error('Nu pot contacta serverul.');
         }
     }
 
@@ -54,7 +56,6 @@ function Inregistrare() {
                 <h2>Creează cont</h2>
                 <p className="subtitle">Platforma de notițe pentru studenții ASE</p>
 
-                {mesaj && <p className={`status-message ${isSuccess ? 'success' : 'error'}`}>{mesaj}</p>}
 
                 <form onSubmit={handleSubmit} className="register-form">
                     <div className="form-row">
