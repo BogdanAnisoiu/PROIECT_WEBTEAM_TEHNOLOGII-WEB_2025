@@ -1,26 +1,26 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import './Inregistrare.css';
 
 function Inregistrare() {
     const [mesaj, setMesaj] = useState('');
+    const [isSuccess, setIsSuccess] = useState(false);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Luam datele din input-uri
+        //luam datele din input-uri
         const dateDeTrimis = {
-            lastName: e.target.elements.LastName.value,
-            firstName: e.target.elements.FirstName.value,
+            nume: e.target.elements.Nume.value,
+            prenume: e.target.elements.Prenume.value,
             email: e.target.elements.Email.value,
             password: e.target.elements.Password.value,
-            specialization: e.target.elements.Specializare.value // Backend-ul asteapta "specialization"
+            specializare: e.target.elements.Specializare.value
         };
 
         try {
-            // URL corect: Port 4000, ruta /auth/register
-            const raspuns = await fetch('http://localhost:4000/auth/register', {
+            const raspuns = await fetch('http://localhost:4000/autentificare/inregistrare', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -31,43 +31,68 @@ function Inregistrare() {
             const raspunsJson = await raspuns.json();
 
             if (raspuns.ok) {
+                setIsSuccess(true);
                 setMesaj(raspunsJson.message || 'Succes!');
-                // Asteptam putin sa vada mesajul, apoi redirect
                 setTimeout(() => navigate('/autentificare'), 2000);
             } else {
+                setIsSuccess(false);
                 setMesaj(raspunsJson.message || 'Eroare la inregistrare');
             }
         } catch (err) {
             console.error(err);
-            setMesaj('Nu pot contacta serverul (asigura-te ca backend-ul merge pe portul 4000).');
+            setMesaj('Nu pot contacta serverul.');
         }
     }
 
     return (
-        <div className="inregistrare-container">
-            <div className="inregistrare-form">
-                <h2>Creeaza cont</h2>
+        <div className="inregistrare-wrapper">
+            <div className="inregistrare-container">
+                <div className="logo-container">
+                    <img src="/ase_logo.png" alt="ASE Logo" className="ase-logo" />
+                </div>
+                <h2>Creează cont</h2>
+                <p className="subtitle">Platforma de notițe pentru studenții ASE</p>
 
-                {mesaj && <p style={{ color: mesaj.includes('Succes') ? 'lightgreen' : 'red', textAlign: 'center' }}>{mesaj}</p>}
+                {mesaj && <p className={`status-message ${isSuccess ? 'success' : 'error'}`}>{mesaj}</p>}
 
-                <form onSubmit={handleSubmit}>
-                    <div className="form-camp">
-                        <label>Nume</label>
-                        <input className='form-camp' type="text" placeholder="Nume" name="LastName" required />
+                <form onSubmit={handleSubmit} className="register-form">
+                    <div className="form-row">
+                        <div className="form-group half-width">
+                            <label>Nume</label>
+                            <input type="text" placeholder="Popescu" name="Nume" required />
+                        </div>
 
-                        <label>Prenume</label>
-                        <input className='form-camp' type='text' placeholder='Prenume' name='FirstName' required />
+                        <div className="form-group half-width">
+                            <label>Prenume</label>
+                            <input type="text" placeholder="Ion" name="Prenume" required />
+                        </div>
+                    </div>
 
-                        <label>Email</label>
-                        <input className='form-camp' type='email' placeholder='student@stud.ase.ro' name='Email' required />
+                    <div className="form-group">
+                        <label>Email instituțional</label>
+                        <input type="email" placeholder="student@stud.ase.ro" name="Email" required />
+                        <span className="helper-text">Folosește adresa @stud.ase.ro</span>
+                    </div>
 
-                        <label>Parola</label>
-                        <input className='form-camp' type='password' placeholder='Parola' name='Password' required />
+                    <div className="form-group">
+                        <label>Parolă</label>
+                        <input type="password" placeholder="••••••••" name="Password" required />
+                    </div>
 
+                    <div className="form-group">
                         <label>Specializare</label>
-                        <input className='form-camp' type='text' placeholder='Specializare' name='Specializare' required />
+                        <select name="Specializare" required defaultValue="">
+                            <option value="" disabled>Selectează specializarea</option>
+                            <option value="INFORMATICA ECONOMICA">Informatica Economica</option>
+                            <option value="CIBERNETICA">Cibernetica</option>
+                            <option value="STATISTICA ECONOMICA">Statistica Economica</option>
+                        </select>
+                    </div>
 
-                        <button type='submit' className="btn-submit">Inregistrare</button>
+                    <button type="submit" className="btn-submit">Înregistrare →</button>
+
+                    <div className="login-link">
+                        Ai deja un cont? <Link to="/autentificare">Autentifică-te</Link>
                     </div>
                 </form>
             </div>

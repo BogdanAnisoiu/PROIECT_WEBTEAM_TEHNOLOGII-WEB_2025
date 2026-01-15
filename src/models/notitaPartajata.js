@@ -1,28 +1,28 @@
 const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-  const Share = sequelize.define('Share', {
+  const NotitaPartajata = sequelize.define('NotitaPartajata', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    noteId: {
+    notitaId: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    userId: {
+    studentId: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    canEdit: {
+    poateEdita: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false,
     },
+  }, {
+    tableName: 'NotitePartajate'
   });
 
-  return Share;
+  return NotitaPartajata;
 };
-
-

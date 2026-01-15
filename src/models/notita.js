@@ -1,61 +1,46 @@
 const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-  const Note = sequelize.define('Note', {
+  const Notita = sequelize.define('Notita', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    userId: {
+    studentId: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    courseId: {
+    cursId: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    type: {
+    tip: {
       type: DataTypes.ENUM('curs', 'seminar'),
       allowNull: false,
     },
-    title: {
+    titlu: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    contentMarkdown: {
+    continut: {
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    date: {
-      type: DataTypes.DATEONLY,
-      allowNull: true,
-    },
-    tags: {
+    cuvinteCheie: {
       type: DataTypes.TEXT,
       allowNull: true,
       get() {
-        const raw = this.getDataValue('tags');
+        const raw = this.getDataValue('cuvinteCheie');
         return raw ? raw.split(',') : [];
       },
       set(value) {
-        this.setDataValue('tags', Array.isArray(value) ? value.join(',') : value);
+        this.setDataValue('cuvinteCheie', Array.isArray(value) ? value.join(',') : value);
       },
     },
-    keywords: {
-      type: DataTypes.TEXT,
-      allowNull: true,
-      get() {
-        const raw = this.getDataValue('keywords');
-        return raw ? raw.split(',') : [];
-      },
-      set(value) {
-        this.setDataValue('keywords', Array.isArray(value) ? value.join(',') : value);
-      },
-    },
+  }, {
+    tableName: 'Notite'
   });
 
-  return Note;
+  return Notita;
 };
-
-

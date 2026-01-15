@@ -2,7 +2,7 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-const { Attachment, Note } = require('../models');
+const { Atasament, Notita } = require('../models');
 const authMiddleware = require('../middleware/authMiddleware');
 
 const router = express.Router();
@@ -24,18 +24,18 @@ const upload = multer({ storage });
 
 router.use(authMiddleware);
 
-// POST /attachments/upload (multipart/form-data: file, noteId)
+//ruta pentru incarcare atasament
 router.post('/upload', upload.single('file'), async (req, res) => {
   try {
-    const { noteId } = req.body;
-    const note = await Note.findByPk(noteId);
-    if (!note || note.userId !== req.user.id) {
+    const { notitaId } = req.body;
+    const notita = await Notita.findByPk(notitaId);
+    if (!notita || notita.studentId !== req.user.id) {
       return res.status(404).json({ message: 'Notita nu exista sau nu este a ta.' });
     }
 
     const file = req.file;
-    const att = await Attachment.create({
-      noteId: note.id,
+    const att = await Atasament.create({
+      notitaId: notita.id,
       fileName: file.originalname,
       mimeType: file.mimetype,
       filePath: file.filename,
@@ -48,11 +48,11 @@ router.post('/upload', upload.single('file'), async (req, res) => {
   }
 });
 
-// GET /attachments/:id/download
+//ruta pentru descarcare atasament
 router.get('/:id/download', async (req, res) => {
   try {
-    const att = await Attachment.findByPk(req.params.id, { include: [{ model: Note, as: 'note' }] });
-    if (!att || att.note.userId !== req.user.id) {
+    const att = await Atasament.findByPk(req.params.id, { include: [{ model: Notita, as: 'notita' }] });
+    if (!att || att.notita.studentId !== req.user.id) {
       return res.status(404).json({ message: 'Atasament inexistent sau fara acces.' });
     }
     const fullPath = path.join(uploadDir, att.filePath);
@@ -63,11 +63,11 @@ router.get('/:id/download', async (req, res) => {
   }
 });
 
-// DELETE /attachments/:id
+//ruta pentru stergere atasament
 router.delete('/:id', async (req, res) => {
   try {
-    const att = await Attachment.findByPk(req.params.id, { include: [{ model: Note, as: 'note' }] });
-    if (!att || att.note.userId !== req.user.id) {
+    const att = await Atasament.findByPk(req.params.id, { include: [{ model: Notita, as: 'notita' }] });
+    if (!att || att.notita.studentId !== req.user.id) {
       return res.status(404).json({ message: 'Atasament inexistent sau fara acces.' });
     }
     const fullPath = path.join(uploadDir, att.filePath);
@@ -83,5 +83,3 @@ router.delete('/:id', async (req, res) => {
 });
 
 module.exports = router;
-
-

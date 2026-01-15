@@ -1,0 +1,242 @@
+.paginaEditor {
+    background-color: #F7F7F5;
+    min-height: 100vh;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Header-ul editorului */
+.headerEditor {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 95%;
+    /* Wider - almost full width */
+    margin-bottom: 20px;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.headerStanga {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex: 1;
+}
+
+.headerActiuni {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.inputTitlu {
+    font-family: 'Inter', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: #333;
+    padding: 5px 0;
+    border: none;
+    border-bottom: 1px solid transparent;
+    background: transparent;
+    outline: none;
+    width: 100%;
+    transition: border-color 0.2s;
+}
+
+.inputTitlu:focus {
+    border-bottom: 1px solid #ccc;
+}
+
+.selectTip {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: white;
+    font-size: 14px;
+    color: #555;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.selectTip:focus {
+    border-color: #333;
+}
+
+.btnEditor {
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: transparent;
+    color: #555;
+    font-family: inherit;
+}
+
+.btnEditor:hover {
+    background-color: #efefef;
+    color: #333;
+}
+
+.btnEditor.primar {
+    background-color: #2eaadc;
+    /* Brand blue or neutral dark */
+    color: white;
+    font-weight: 600;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.btnEditor.primar:hover {
+    background-color: #2392be;
+    transform: translateY(-1px);
+}
+
+.btnEditor.pericol {
+    color: #d93025;
+    background-color: transparent;
+}
+
+.btnEditor.pericol:hover {
+    background-color: #fce8e6;
+    color: #c5221f;
+}
+
+.containerEditor {
+    width: 100%;
+    max-width: 900px;
+    /* Reduced width for better readability */
+    text-align: left;
+    min-height: 67vh;
+    background-color: #fff;
+    padding: 60px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border-radius: 2px;
+    cursor: text;
+    display: flex;
+    flex-direction: column;
+}
+
+.editor-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+/* ProseMirror text styles */
+.ProseMirror {
+    outline: none;
+    flex-grow: 1;
+    /* Expand to fill container */
+    font-size: 17px;
+    line-height: 1.7;
+    color: #37352f;
+    font-weight: 400;
+    /* Ensure normal text is not bold */
+}
+
+.ProseMirror p {
+    margin-bottom: 1em;
+}
+
+.ProseMirror h1 {
+    font-size: 2.2em;
+    font-weight: 700;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+    line-height: 1.2;
+}
+
+.ProseMirror h2 {
+    font-size: 1.8em;
+    font-weight: 600;
+    margin-top: 1.3em;
+    margin-bottom: 0.4em;
+}
+
+.ProseMirror h3 {
+    font-size: 1.4em;
+    font-weight: 600;
+    margin-top: 1.1em;
+    margin-bottom: 0.3em;
+}
+
+.ProseMirror ul,
+.ProseMirror ol {
+    padding-left: 1.5em;
+    margin-bottom: 1em;
+}
+
+.ProseMirror blockquote {
+    border-left: 3px solid #333;
+    padding-left: 1em;
+    margin-left: 0;
+    font-style: italic;
+    color: #666;
+}
+
+.ProseMirror img {
+    max-width: 600px;
+    /* Fixed maximum width */
+    width: auto;
+    /* Maintain aspect ratio */
+    height: auto;
+    border-radius: 4px;
+    margin: 20px 0;
+    display: block;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.ProseMirror code {
+    background-color: #f5f5f5;
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.85em;
+    color: #eb5757;
+}
+
+.ProseMirror pre {
+    background: #0d0d0d;
+    color: #fff;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+}
+
+.ProseMirror pre code {
+    color: inherit;
+    padding: 0;
+    background: none;
+    font-size: 0.8rem;
+}
+
+/* Placeholder styling */
+.ProseMirror p.is-editor-empty:first-child::before {
+    color: #adb5bd;
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
+}
+
+.etichetaCheie {
+    background-color: #e3f2fd;
+    color: #1565c0;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 600;
+    display: inline-block;
+    margin: 0 2px;
+    border: 1px solid #bbdefb;
+}

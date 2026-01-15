@@ -1,17 +1,17 @@
 const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-  const FriendRequest = sequelize.define('FriendRequest', {
+  const CererePrietenie = sequelize.define('CererePrietenie', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    senderId: {
+    expeditorId: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    receiverId: {
+    destinatarId: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
@@ -20,9 +20,14 @@ module.exports = (sequelize) => {
       allowNull: false,
       defaultValue: 'pending',
     },
+    poateEdita: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
+  }, {
+    tableName: 'CereriPrietenie'
   });
 
-  return FriendRequest;
+  return CererePrietenie;
 };
-
-

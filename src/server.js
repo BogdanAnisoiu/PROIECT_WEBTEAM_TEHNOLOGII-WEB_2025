@@ -6,12 +6,12 @@ const path = require('path');
 dotenv.config();
 
 const { sequelize } = require('./models');
-const authRoutes = require('./routes/auth');
-const userRoutes = require('./routes/users');
-const courseRoutes = require('./routes/courses');
-const noteRoutes = require('./routes/notes');
-const attachmentRoutes = require('./routes/attachments');
-const shareRoutes = require('./routes/shares');
+const ruteAutentificare = require('./routes/autentificare');
+const ruteStudenti = require('./routes/studenti');
+const ruteCursuri = require('./routes/cursuri');
+const ruteNotite = require('./routes/notite');
+const rutePartajare = require('./routes/partajare');
+const ruteGrupuri = require('./routes/grupuri');
 
 const app = express();
 
@@ -23,18 +23,36 @@ app.get('/', (req, res) => {
   res.json({ message: 'API proiectWEB backend este pornit.' });
 });
 
-app.use('/auth', authRoutes);
-app.use('/users', userRoutes);
-app.use('/courses', courseRoutes);
-app.use('/notes', noteRoutes);
-app.use('/attachments', attachmentRoutes);
-app.use('/shares', shareRoutes);
+app.use('/autentificare', ruteAutentificare);
+app.use('/studenti', ruteStudenti);
+app.use('/cursuri', ruteCursuri);
+app.use('/notite', ruteNotite);
+app.use('/partajare', rutePartajare);
+app.use('/grupuri', ruteGrupuri);
+app.use('/incarcare', require('./routes/upload'));
 
 const PORT = process.env.PORT || 4000;
 
 async function start() {
   try {
     await sequelize.authenticate();
+
+    // Disable foreign keys specifically for SQLite to allow alter
+    await sequelize.query('PRAGMA foreign_keys = OFF;');
+    // Update specific models to modify schema without breaking others
+    if (sequelize.models.CererePrietenie) {
+      await sequelize.models.CererePrietenie.sync({ alter: true });
+    }
+    if (sequelize.models.Notita) {
+      await sequelize.models.Notita.sync({ alter: true });
+    }
+
+    await sequelize.query('PRAGMA foreign_keys = ON;');
+
+    // Sync other models without altering (safe)
+    // validation: false allows skipping checks if tables essentially match
+    await sequelize.sync();
+
     console.log('Conexiune la baza de date realizata cu succes.');
 
     app.listen(PORT, () => {
