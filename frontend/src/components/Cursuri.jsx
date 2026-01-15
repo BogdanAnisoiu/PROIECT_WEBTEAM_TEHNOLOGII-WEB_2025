@@ -101,7 +101,7 @@ function Cursuri() {
         const fetchPrieteni = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const res = await fetch('http://localhost:4000/studenti/prieteni', {
+                const res = await fetch(API_URL + '/studenti/prieteni', {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 if (res.ok) {
@@ -118,7 +118,7 @@ function Cursuri() {
     const fetchPrieteni = async () => {
         try {
             const token = localStorage.getItem('token');
-            const res = await fetch('http://localhost:4000/studenti/prieteni', {
+            const res = await fetch(API_URL + '/studenti/prieteni', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (res.ok) {
@@ -137,7 +137,7 @@ function Cursuri() {
         }
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:4000/studenti/cereri-prietenie', {
+            const response = await fetch(API_URL + '/studenti/cereri-prietenie', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -170,7 +170,7 @@ function Cursuri() {
     const preiaCereri = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:4000/studenti/cereri-prietenie', {
+            const response = await fetch(API_URL + '/studenti/cereri-prietenie', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (response.ok) {
@@ -187,7 +187,7 @@ function Cursuri() {
         try {
             const token = localStorage.getItem('token');
             const actiuneRo = actiune === 'accept' ? 'accepta' : 'respinge';
-            const response = await fetch(`http://localhost:4000/studenti/cereri-prietenie/${idOfRequest}/${actiuneRo}`, {
+            const response = await fetch(`${API_URL}/studenti/cereri-prietenie/${idOfRequest}/${actiuneRo}`, {
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
@@ -219,7 +219,7 @@ function Cursuri() {
     const preiaCursuri = async (an, semestru) => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:4000/cursuri?an=${an}&semestru=${semestru}`, {
+            const response = await fetch(`${API_URL}/cursuri?an=${an}&semestru=${semestru}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -258,7 +258,7 @@ function Cursuri() {
         try {
             const token = localStorage.getItem('token');
             //cerem de la backend notitele doar pentru acest curs
-            const response = await fetch(`http://localhost:4000/notite?cursId=${idCurs}`, {
+            const response = await fetch(`${API_URL}/notite?cursId=${idCurs}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
 
@@ -278,7 +278,7 @@ function Cursuri() {
         if (!friendId) return;
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:4000/partajare', {
+            const response = await fetch(API_URL + '/partajare', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -305,7 +305,7 @@ function Cursuri() {
     const preiaNotitePartajate = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:4000/partajare/primite', {
+            const response = await fetch(API_URL + '/partajare/primite', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (response.ok) {
@@ -333,7 +333,7 @@ function Cursuri() {
         }
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:4000/cursuri', {
+            const response = await fetch(API_URL + '/cursuri', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -375,7 +375,7 @@ function Cursuri() {
     const fetchGrupuri = async () => {
         try {
             const token = localStorage.getItem('token');
-            const res = await fetch('http://localhost:4000/grupuri', {
+            const res = await fetch(API_URL + '/grupuri', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (res.ok) {
@@ -391,7 +391,7 @@ function Cursuri() {
         if (!numeGrupNou) return alert("Numele grupului este obligatoriu.");
         try {
             const token = localStorage.getItem('token');
-            const res = await fetch('http://localhost:4000/grupuri', {
+            const res = await fetch(API_URL + '/grupuri', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -421,7 +421,7 @@ function Cursuri() {
 
         try {
             const token = localStorage.getItem('token');
-            const res = await fetch(`http://localhost:4000/grupuri/${grupId}`, {
+            const res = await fetch(`${API_URL}/grupuri/${grupId}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (res.ok) {
@@ -442,7 +442,7 @@ function Cursuri() {
 
         try {
             const token = localStorage.getItem('token');
-            const res = await fetch(`http://localhost:4000/grupuri/${grupSelectat}/invita`, {
+            const res = await fetch(`${API_URL}/grupuri/${grupSelectat}/invita`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -737,7 +737,7 @@ function Cursuri() {
                                                             const gId = val.split('-')[1];
                                                             if (window.confirm(`Partajezi notita in grupul selectat?`)) {
                                                                 //apel api pentru partajare in grup
-                                                                fetch(`http://localhost:4000/grupuri/${gId}/notite`, {
+                                                                fetch(`${API_URL}/grupuri/${gId}/notite`, {
                                                                     method: 'POST',
                                                                     headers: {
                                                                         'Content-Type': 'application/json',
@@ -882,7 +882,7 @@ function Cursuri() {
                                                         if (window.confirm(`Sigur vrei sa stergi prietenia cu ${prieten.nume}? Toate notitele partajate vor fi sterse.`)) {
                                                             try {
                                                                 const token = localStorage.getItem('token');
-                                                                const res = await fetch(`http://localhost:4000/studenti/prieteni/${prieten.id}`, {
+                                                                const res = await fetch(`${API_URL}/studenti/prieteni/${prieten.id}`, {
                                                                     method: 'DELETE',
                                                                     headers: { 'Authorization': `Bearer ${token}` }
                                                                 });

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { API_URL } from '../config';
 import './Autentificare.css';
 
 function Autentificare() {
@@ -16,7 +17,7 @@ function Autentificare() {
         };
 
         try {
-            const raspuns = await fetch('http://localhost:4000/autentificare/conectare', {
+            const raspuns = await fetch(`${API_URL}/autentificare/conectare`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(dateLogin)

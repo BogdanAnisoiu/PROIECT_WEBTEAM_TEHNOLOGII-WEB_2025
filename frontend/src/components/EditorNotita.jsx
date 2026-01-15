@@ -8,6 +8,7 @@ import Placeholder from '@tiptap/extension-placeholder';
 import './EditorNotita.css';
 import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { API_URL } from '../config';
 
 const EditorNotita = () => {
     const referintaInputFisier = useRef(null);
@@ -65,7 +66,7 @@ const EditorNotita = () => {
         const token = localStorage.getItem('token');
 
         try {
-            const raspuns = await fetch('http://localhost:4000/incarcare', {
+            const raspuns = await fetch(`${API_URL}/incarcare`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -114,7 +115,7 @@ const EditorNotita = () => {
         const continut = editor.getHTML();
         const token = localStorage.getItem('token');
         const metoda = id ? 'PUT' : 'POST';
-        const url = id ? `http://localhost:4000/notite/${id}` : 'http://localhost:4000/notite';
+        const url = id ? `${API_URL}/notite/${id}` : `${API_URL}/notite`;
 
         const cuvinteCheie = editor.getText().match(/![\w\u00C0-\u017F]+/g) || [];
         const cuvinteCheieUnice = [...new Set(cuvinteCheie)].map(k => k.substring(1)); //eliminam '!'
@@ -150,7 +151,7 @@ const EditorNotita = () => {
             const incarcaNotita = async () => {
                 const token = localStorage.getItem('token');
                 try {
-                    const raspuns = await fetch(`http://localhost:4000/notite/${id}`, {
+                    const raspuns = await fetch(`${API_URL}/notite/${id}`, {
                         headers: {
                             'Content-Type': 'application/json',
                             'Authorization': `Bearer ${token}`
@@ -179,7 +180,7 @@ const EditorNotita = () => {
 
         try {
             const token = localStorage.getItem('token');
-            const raspuns = await fetch(`http://localhost:4000/notite/${id}`, {
+            const raspuns = await fetch(`${API_URL}/notite/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`

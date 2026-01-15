@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { API_URL } from '../config';
 import './Inregistrare.css';
 
 function Inregistrare() {
@@ -20,7 +21,7 @@ function Inregistrare() {
         };
 
         try {
-            const raspuns = await fetch('http://localhost:4000/autentificare/inregistrare', {
+            const raspuns = await fetch(`${API_URL}/autentificare/inregistrare`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
